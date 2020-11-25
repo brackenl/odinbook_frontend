@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -30,80 +30,31 @@ const useStyles = makeStyles((theme) => ({
     transform: "translate(-50%, -50%)",
   },
   textField: {
-    backgroundColor: "rgb(245, 246, 247)",
+    // backgroundColor: "rgb(245, 246, 247)",
     border: "1px solid rgb(204, 208, 213)",
     borderRadius: 5,
+  },
+  longTextField: {
+    width: "380px",
   },
 }));
 
 const SignUpModal = (props) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const classes = useStyles();
 
-  const body = (
-    <div className={`${classes.root} ${classes.paper} ${classes.modalStyle}`}>
-      <Typography variant="h4">Sign up</Typography>
-      <Typography variant="body1" style={{ marginBottom: 10 }}>
-        It's quick and easy.
-      </Typography>
-      <Divider />
-      <div style={{ marginTop: 10 }}>
-        <TextField
-          required
-          id="firstNameInput"
-          placeholder="First name"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          className={classes.textField}
-        />
-        <TextField
-          required
-          id="lastNameInput"
-          placeholder="Last name"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          className={classes.textField}
-        />
-        <TextField
-          id="emailInput"
-          placeholder="Mobile number or email"
-          variant="filled"
-          style={{ width: "380px", marginRight: 8 }}
-          InputProps={{ disableUnderline: true }}
-          className={classes.textField}
-        />
-        <TextField
-          id="passwordInput"
-          placeholder="New password"
-          variant="filled"
-          fullWidth
-          style={{ width: "380px" }}
-          InputProps={{ disableUnderline: true }}
-          className={classes.textField}
-        />
-        <div
-          style={{ display: "flex", justifyContent: "center", marginTop: 20 }}
-        >
-          <Button
-            variant="contained"
-            // className={classes.button}
-            style={{
-              backgroundColor: "rgb(72,182,54)",
-              width: "50%",
-              color: "white",
-              margin: "0 auto",
-            }}
-          >
-            Sign Up
-          </Button>
-        </div>
-      </div>
-      {/* <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p> */}
-      {/* <SimpleModal /> */}
-    </div>
-  );
+  const handleClick = () => {
+    props.handleSignUp(firstName, lastName, email, password);
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    props.toggle();
+  };
 
   return (
     <div>
@@ -113,7 +64,75 @@ const SignUpModal = (props) => {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {body}
+        <div
+          className={`${classes.root} ${classes.paper} ${classes.modalStyle}`}
+        >
+          <Typography variant="h4">Sign up</Typography>
+          <Typography variant="body1" style={{ marginBottom: 10 }}>
+            It's quick and easy.
+          </Typography>
+          <Divider />
+          <div style={{ marginTop: 10 }}>
+            <TextField
+              required
+              id="firstNameInput"
+              placeholder="First name"
+              variant="outlined"
+              className={`${classes.textField}`}
+              onChange={(e) => setFirstName(e.target.value)}
+              value={firstName}
+            />
+            <TextField
+              required
+              id="lastNameInput"
+              placeholder="Last name"
+              variant="outlined"
+              className={`${classes.textField}`}
+              onChange={(e) => setLastName(e.target.value)}
+              value={lastName}
+            />
+            <TextField
+              id="emailInput"
+              placeholder="Mobile number or email"
+              variant="outlined"
+              style={{ width: "380px" }}
+              className={`${classes.textField} ${classes.longTextField}`}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+            <TextField
+              id="passwordInput"
+              placeholder="New password"
+              variant="outlined"
+              fullWidth
+              style={{ width: "380px" }}
+              type="password"
+              className={`${classes.textField} ${classes.longTextField}`}
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 20,
+              }}
+            >
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "rgb(72,182,54)",
+                  width: "50%",
+                  color: "white",
+                  margin: "0 auto",
+                }}
+                onClick={handleClick}
+              >
+                Sign Up
+              </Button>
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   );
