@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar() {
+const NavBar = ({ user, setUser }) => {
   const classes = useStyles();
-  const [auth, setAuth] = useState(true);
+  // const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -41,6 +41,11 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
+  const handleLogOut = () => {
+    setUser("");
+    handleClose();
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -53,9 +58,6 @@ export default function MenuAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          {/* <Typography variant="h6" className={classes.title}>
-            Photos
-          </Typography> */}
           <div className={classes.title}>
             <img
               src={process.env.PUBLIC_URL + "/odinbook-logo.png"}
@@ -63,7 +65,7 @@ export default function MenuAppBar() {
               width="160px"
             />
           </div>
-          {auth && (
+          {user && (
             <div>
               <IconButton
                 aria-label="account of current user"
@@ -91,6 +93,7 @@ export default function MenuAppBar() {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleLogOut}>Log out</MenuItem>
               </Menu>
             </div>
           )}
@@ -98,4 +101,6 @@ export default function MenuAppBar() {
       </AppBar>
     </div>
   );
-}
+};
+
+export default NavBar;

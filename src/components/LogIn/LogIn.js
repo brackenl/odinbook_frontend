@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const Login = ({ user, setUser }) => {
   const history = useHistory();
   const classes = useStyles();
 
@@ -33,10 +33,13 @@ const Login = () => {
     axios.post("/auth/login", { email, password }).then((result) => {
       const user = {
         email: result.data.user.email,
-        name: result.data.user.name,
+        first_name: result.data.user.first_name,
+        last_name: result.data.user.last_name,
         token: result.data.token.token,
+        id: result.data.user.id,
+        profilePicUrl: result.data.user.profilePicUrl,
       };
-      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
       axios.defaults.headers.common["Authorization"] = result.data.token.token;
       history.push("/");
     });
@@ -49,15 +52,20 @@ const Login = () => {
         console.log(result);
         const user = {
           email: result.data.user.email,
-          name: result.data.user.name,
+          first_name: result.data.user.first_name,
+          last_name: result.data.user.last_name,
           token: result.data.token.token,
         };
-        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
         axios.defaults.headers.common["Authorization"] =
           result.data.token.token;
         history.push("/");
       });
   };
+
+  if (user) {
+    history.push("/");
+  }
 
   return (
     <Container maxWidth="xl" className={classes.logInContainer}>

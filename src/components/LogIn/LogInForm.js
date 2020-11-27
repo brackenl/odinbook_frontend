@@ -108,7 +108,7 @@ const LogInForm = (props) => {
           marginTop: "8px",
         }}
       >
-        <Facebook />
+        {/* <Facebook /> */}
       </div>
     </div>
   );

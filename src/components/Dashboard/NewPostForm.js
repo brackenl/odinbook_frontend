@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
+
+import UserAvatar from "../UserAvatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,18 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewPostForm = ({ user }) => {
+const NewPostForm = ({ user, handlePostSubmit }) => {
+  const [postText, setPostText] = useState("");
   const classes = useStyles();
-
-  const getInitials = () => {
-    const splitNames = user.name.split(" ");
-    console.log(splitNames);
-    return `${splitNames[0][0]}${splitNames[1][0]}`;
-  };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      console.log("enter press here! ");
+      handlePostSubmit(postText);
+      setPostText("");
     }
   };
 
@@ -41,20 +38,17 @@ const NewPostForm = ({ user }) => {
 
   return (
     <div className={classes.root}>
-      <Avatar
-        alt={user.name}
-        src={user.profilePicUrl ? user.profilePicUrl : ""}
-      >
-        {user.profilePicUrl ? null : getInitials()}
-      </Avatar>
+      <UserAvatar user={user} />
       <TextField
-        placeholder={`What's on your mind, ${user.name.split(" ")[0]}?`}
+        placeholder={`What's on your mind, ${user.first_name}?`}
         variant="outlined"
         className={classes.textField}
         InputProps={{
           className: classes.textField,
         }}
         onKeyPress={handleKeyPress}
+        onChange={(e) => setPostText(e.target.value)}
+        value={postText}
       />
     </div>
   );

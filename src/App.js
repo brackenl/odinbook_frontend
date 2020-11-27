@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
+
+import useLocalStorage from "./hooks/useLocalStorage";
 
 import NavBar from "./components/NavBar/NavBar";
 import LogIn from "./components/LogIn/LogIn";
@@ -10,32 +12,19 @@ import "./App.css";
 require("dotenv").config();
 
 const App = () => {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useLocalStorage("user", "");
   const history = useHistory();
 
-  useEffect(() => {
-    const lsUser = JSON.parse(localStorage.getItem("user"));
-    setUser(lsUser);
-
-    if (!lsUser) {
-      history.push("/login");
-    }
-  }, [history]);
-
-  // const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
-
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // if (!user) {
-  //   history.push("/login");
-  // }
+  if (!user) {
+    history.push("/login");
+  }
 
   return (
     <div className="App">
-      <NavBar />
+      <NavBar user={user} setUser={setUser} />
       <Switch>
         <Route path="/login" exact>
-          <LogIn />
+          <LogIn user={user} setUser={setUser} />
         </Route>
         <Route path="/">
           <Dashboard user={user} />
