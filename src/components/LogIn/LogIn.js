@@ -49,7 +49,6 @@ const Login = ({ user, setUser }) => {
     axios
       .post("/auth/signup", { firstName, lastName, email, password })
       .then((result) => {
-        console.log(result);
         const user = {
           email: result.data.user.email,
           first_name: result.data.user.first_name,

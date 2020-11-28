@@ -4,18 +4,21 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
 
 import UserAvatar from "../UserAvatar";
-import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
     backgroundColor: "rgb(32,33,34)",
+    textAlign: "left",
   },
   tickIcon: {
     color: "green",
@@ -23,17 +26,31 @@ const useStyles = makeStyles((theme) => ({
   crossIcon: {
     color: "red",
   },
+  subheader: {
+    color: "white",
+  },
 }));
 
-const FriendsList = ({ friends, friendRequests }) => {
+const FriendsList = ({
+  friends,
+  friendRequests,
+  handleAcceptRequest,
+  handleDeclineRequest,
+}) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Typography variant="h6" style={{ textAlign: "left" }}>
-        Friend requests
-      </Typography>
-      <List component="nav" aria-label="[top] friends list">
+      {/* <Typography variant="h6">Friend requests</Typography> */}
+      <List
+        component="nav"
+        aria-label="friend requests list"
+        subheader={
+          <ListSubheader className={classes.subheader}>
+            Friend Requests
+          </ListSubheader>
+        }
+      >
         {friendRequests.slice(0, 3).map((requester, index) => {
           return (
             <div key={requester._id}>
@@ -44,22 +61,35 @@ const FriendsList = ({ friends, friendRequests }) => {
                 <ListItemText
                   primary={`${requester.first_name} ${requester.last_name}`}
                 />
-                <ListItemIcon>
-                  <CheckCircleIcon className={classes.tickIcon} />
-                </ListItemIcon>
-                <ListItemIcon>
-                  <CancelIcon className={classes.crossIcon} />
-                </ListItemIcon>
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="comments"
+                    onClick={() => handleAcceptRequest(requester._id)}
+                  >
+                    <CheckCircleIcon className={classes.tickIcon} />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    aria-label="comments"
+                    onClick={() => handleDeclineRequest(requester._id)}
+                  >
+                    <CancelIcon className={classes.crossIcon} />
+                  </IconButton>
+                </ListItemSecondaryAction>
               </ListItem>
               {friendRequests[index + 1] ? <Divider /> : null}
             </div>
           );
         })}
       </List>
-      <Typography variant="h6" style={{ textAlign: "left" }}>
-        Friends
-      </Typography>
-      <List component="nav" aria-label="[top] friends list">
+      <List
+        component="nav"
+        aria-label="[top] friends list"
+        subheader={
+          <ListSubheader className={classes.subheader}>Friends</ListSubheader>
+        }
+      >
         {friends.map((friend, index) => {
           return (
             <div key={friend._id}>

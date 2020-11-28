@@ -1,4 +1,6 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -18,12 +20,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LinkList = ({ user }) => {
+  const history = useHistory();
   const classes = useStyles();
+
+  const handleClick = (address) => {};
 
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="main nav list">
-        <ListItem button>
+        <ListItem button onClick={() => handleClick(`/profile/${user.id}`)}>
           <ListItemIcon>
             <UserAvatar user={user} />
           </ListItemIcon>
@@ -34,7 +39,10 @@ const LinkList = ({ user }) => {
           <ListItemIcon>
             <GroupIcon />
           </ListItemIcon>
-          <ListItemText primary="Friends" />
+          <ListItemText
+            primary="Friends"
+            onClick={() => handleClick(`/friends`)}
+          />
         </ListItem>
       </List>
     </div>

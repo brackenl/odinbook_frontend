@@ -6,6 +6,7 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import NavBar from "./components/NavBar/NavBar";
 import LogIn from "./components/LogIn/LogIn";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Profile from "./components/Profile/Profile";
 
 import "./App.css";
 
@@ -23,6 +24,9 @@ const App = () => {
     <div className="App">
       <NavBar user={user} setUser={setUser} />
       <Switch>
+        <Route path="/users/:userId" exact>
+          <Profile user={user} />
+        </Route>
         <Route path="/login" exact>
           <LogIn user={user} setUser={setUser} />
         </Route>

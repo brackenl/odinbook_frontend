@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
-import UserAvatar from "../UserAvatar";
+import UserAvatar from "./UserAvatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {

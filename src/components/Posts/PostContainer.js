@@ -23,15 +23,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PostContainer = ({ posts }) => {
+const PostContainer = ({
+  user,
+  posts,
+  handleCommentSubmit,
+  handleLikePost,
+  handleLikeComment,
+}) => {
   const classes = useStyles();
 
   return (
     <div>
-      {posts.map((post) => {
+      {posts.slice(0, 9).map((post) => {
         return (
           <Paper className={classes.paper} key={post._id}>
-            <Post post={post} />
+            <Post
+              post={post}
+              user={user}
+              handleCommentSubmit={handleCommentSubmit}
+              handleLikePost={handleLikePost}
+              handleLikeComment={handleLikeComment}
+            />
           </Paper>
         );
       })}

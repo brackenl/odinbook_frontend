@@ -7,10 +7,12 @@ import Grid from "@material-ui/core/Grid";
 
 import axios from "../../utils/axios";
 
-import NewPostForm from "./NewPostForm";
+import NewPostForm from "../NewPostForm";
 import PostContainer from "../Posts/PostContainer";
 import LinkList from "./LinkList";
 import FriendsList from "./FriendsList";
+
+import axiosFns from "../../utils/axiosFns";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,22 +34,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = ({ user }) => {
   const [posts, setPosts] = useState([]);
-  // const [userInfo, setUserInfo] = useState({});
   const [userFriends, setUserFriends] = useState([]);
   const [friendRequests, setFriendRequests] = useState([]);
   const classes = useStyles();
 
-  const sortPosts = (arr) => {
-    const sortedArr = arr.sort(
-      (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
-    );
-    return sortedArr;
-  };
+  const {
+    getPosts,
+    handlePostSubmit,
+    handleLikePost,
+    handleCommentSubmit,
+    handleLikeComment,
+  } = axiosFns(posts, setPosts, user);
 
   useEffect(() => {
-    axios.get("/posts").then((results) => {
-      setPosts(sortPosts(results.data.posts));
-    });
+    getPosts();
   }, []);
 
   useEffect(() => {
@@ -59,11 +59,35 @@ const Dashboard = ({ user }) => {
     }
   }, [user]);
 
-  const handlePostSubmit = (postText) => {
-    axios.post("/posts", { content: postText }).then((result) => {
-      const updatedPosts = [...posts, result.data.post];
-      setPosts(sortPosts(updatedPosts));
-    });
+  const handleAcceptRequest = (id) => {
+    axios
+      .put(`/users/friends/accept`, {
+        relUserId: id,
+      })
+      .then((result) => {
+        const updatedFriends = [...userFriends, result.data.user];
+        setUserFriends(updatedFriends);
+
+        const updatedFriendReqs = friendRequests.filter(
+          (item) => item._id != id
+        );
+        setFriendRequests(updatedFriendReqs);
+      });
+  };
+
+  const handleDeclineRequest = (id) => {
+    axios
+      .delete(`/users/friends/decline`, {
+        data: {
+          relUserId: id,
+        },
+      })
+      .then((result) => {
+        const updatedFriendReqs = friendRequests.filter(
+          (item) => item._id != id
+        );
+        setFriendRequests(updatedFriendReqs);
+      });
   };
 
   return (
@@ -78,13 +102,21 @@ const Dashboard = ({ user }) => {
           <Paper className={classes.paper}>
             <NewPostForm user={user} handlePostSubmit={handlePostSubmit} />
           </Paper>
-          <PostContainer posts={posts} />
+          <PostContainer
+            user={user}
+            posts={posts}
+            handleCommentSubmit={handleCommentSubmit}
+            handleLikePost={handleLikePost}
+            handleLikeComment={handleLikeComment}
+          />
         </Grid>
         <Grid item xs={0} md={3}>
           <Paper className={classes.paper}>
             <FriendsList
               friends={userFriends}
               friendRequests={friendRequests}
+              handleAcceptRequest={handleAcceptRequest}
+              handleDeclineRequest={handleDeclineRequest}
             />
           </Paper>
         </Grid>
