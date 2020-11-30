@@ -2,6 +2,7 @@ import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 
 import Post from "./Post";
 
@@ -21,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     marginBottom: 20,
   },
+  noPostsText: {
+    color: "white",
+  },
 }));
 
 const PostContainer = ({
@@ -32,21 +36,31 @@ const PostContainer = ({
 }) => {
   const classes = useStyles();
 
+  if (!posts) {
+    return <div class="loader">Loading...</div>;
+  }
+
   return (
     <div>
-      {posts.slice(0, 9).map((post) => {
-        return (
-          <Paper className={classes.paper} key={post._id}>
-            <Post
-              post={post}
-              user={user}
-              handleCommentSubmit={handleCommentSubmit}
-              handleLikePost={handleLikePost}
-              handleLikeComment={handleLikeComment}
-            />
-          </Paper>
-        );
-      })}
+      {posts.length > 0 ? (
+        posts.slice(0, 9).map((post) => {
+          return (
+            <Paper className={classes.paper} key={post._id}>
+              <Post
+                post={post}
+                user={user}
+                handleCommentSubmit={handleCommentSubmit}
+                handleLikePost={handleLikePost}
+                handleLikeComment={handleLikeComment}
+              />
+            </Paper>
+          );
+        })
+      ) : (
+        <Typography className={classes.noPostsText}>
+          {user.first_name} hasn't posted yet!
+        </Typography>
+      )}
     </div>
   );
 };

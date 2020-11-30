@@ -1,4 +1,6 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -38,6 +40,11 @@ const FriendsList = ({
   handleDeclineRequest,
 }) => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleFriendClick = (id) => {
+    history.push(`/users/${id}`);
+  };
 
   return (
     <div className={classes.root}>
@@ -54,7 +61,7 @@ const FriendsList = ({
         {friendRequests.slice(0, 3).map((requester, index) => {
           return (
             <div key={requester._id}>
-              <ListItem button>
+              <ListItem button onClick={() => handleFriendClick(requester._id)}>
                 <ListItemIcon>
                   <UserAvatar user={requester} />
                 </ListItemIcon>
@@ -93,7 +100,7 @@ const FriendsList = ({
         {friends.map((friend, index) => {
           return (
             <div key={friend._id}>
-              <ListItem button>
+              <ListItem button onClick={() => handleFriendClick(friend._id)}>
                 <ListItemIcon>
                   <UserAvatar user={friend} />
                 </ListItemIcon>

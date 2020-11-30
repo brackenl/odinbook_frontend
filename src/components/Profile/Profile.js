@@ -13,6 +13,7 @@ import PostContainer from "../Posts/PostContainer";
 import UserInfo from "./UserInfo";
 
 import axiosFns from "../../utils/axiosFns";
+import EditProfileForm from "./EditProfileForm";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 const Profile = ({ user }) => {
   const [relUser, setRelUser] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [editing, setEditing] = useState(false);
 
   const classes = useStyles();
   const { userId } = useParams();
@@ -98,6 +100,10 @@ const Profile = ({ user }) => {
       });
   };
 
+  const toggleEditProfile = () => {
+    setEditing(!editing);
+  };
+
   if (!relUser) {
     return <div className="loader">Loading...</div>;
   }
@@ -107,15 +113,20 @@ const Profile = ({ user }) => {
       <Grid container spacing={3} className={classes.grid}>
         <Grid item xs={12} md={8}>
           <Paper className={classes.paper}>
-            <UserInfo
-              user={relUser}
-              loggedInUser={user}
-              handleFriendReq={handleFriendReq}
-              handleRemoveFriend={handleRemoveFriend}
-              handleFriendReq={handleFriendReq}
-              handleCancelFriendReq={handleCancelFriendReq}
-              handleRemoveFriend={handleRemoveFriend}
-            />
+            {editing ? (
+              <EditProfileForm toggleEditProfile={toggleEditProfile} />
+            ) : (
+              <UserInfo
+                user={relUser}
+                loggedInUser={user}
+                handleFriendReq={handleFriendReq}
+                handleRemoveFriend={handleRemoveFriend}
+                handleFriendReq={handleFriendReq}
+                handleCancelFriendReq={handleCancelFriendReq}
+                handleRemoveFriend={handleRemoveFriend}
+                toggleEditProfile={toggleEditProfile}
+              />
+            )}
           </Paper>
         </Grid>
         <Grid item xs={12} md={8}>

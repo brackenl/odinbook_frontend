@@ -24,7 +24,7 @@ const App = () => {
     <div className="App">
       <NavBar user={user} setUser={setUser} />
       <Switch>
-        <Route path="/users/:userId" exact>
+        <Route path="/users/:userId">
           <Profile user={user} />
         </Route>
         <Route path="/login" exact>

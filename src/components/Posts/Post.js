@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import formatDistance from "date-fns/formatDistance";
 
 import UserAvatar from "../UserAvatar";
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   postAuthorName: {
     textAlign: "left",
     fontWeight: "bold",
+    cursor: "pointer",
   },
   postTime: {
     textAlign: "left",
@@ -59,9 +61,14 @@ const Post = ({
 }) => {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   const toggleShowCommentForm = () => {
     setShowCommentForm(!showCommentForm);
+  };
+
+  const handleNameClick = () => {
+    history.push(`/users/${post.author._id}`);
   };
 
   return (
@@ -69,7 +76,11 @@ const Post = ({
       <div className={classes.postAuthorInfoContainer}>
         <UserAvatar user={post.author} />
         <div style={{ flexDirection: "column", marginLeft: 15 }}>
-          <Typography className={classes.postAuthorName} variant="body1">
+          <Typography
+            className={classes.postAuthorName}
+            variant="body1"
+            onClick={handleNameClick}
+          >
             {`${post.author.first_name} ${post.author.last_name}`}
           </Typography>
           <Typography className={classes.postTime} variant="body2">

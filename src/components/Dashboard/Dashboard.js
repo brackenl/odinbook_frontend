@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Dashboard = ({ user }) => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const [userFriends, setUserFriends] = useState([]);
   const [friendRequests, setFriendRequests] = useState([]);
   const classes = useStyles();

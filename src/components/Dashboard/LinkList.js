@@ -23,12 +23,14 @@ const LinkList = ({ user }) => {
   const history = useHistory();
   const classes = useStyles();
 
-  const handleClick = (address) => {};
+  const handleClick = (address) => {
+    history.push(address);
+  };
 
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="main nav list">
-        <ListItem button onClick={() => handleClick(`/profile/${user.id}`)}>
+        <ListItem button onClick={() => handleClick(`/users/${user.id}`)}>
           <ListItemIcon>
             <UserAvatar user={user} />
           </ListItemIcon>
