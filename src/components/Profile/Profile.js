@@ -12,6 +12,7 @@ import NewPostForm from "../NewPostForm";
 import PostContainer from "../Posts/PostContainer";
 import UserInfo from "./UserInfo";
 
+// import useLocalStorage from "../../hooks/useLocalStorage";
 import axiosFns from "../../utils/axiosFns";
 import EditProfileForm from "./EditProfileForm";
 
@@ -33,10 +34,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = ({ user }) => {
+const Profile = ({ user, setUser }) => {
   const [relUser, setRelUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [editing, setEditing] = useState(false);
+
+  // const [updatedUser, setUser] = useLocalStorage("user", "");
 
   const classes = useStyles();
   const { userId } = useParams();
@@ -100,6 +103,22 @@ const Profile = ({ user }) => {
       });
   };
 
+  const handleUpdateProfile = (values) => {
+    axios.put(`/users/${user.id}`, values).then((result) => {
+      const updatedUser = {
+        email: result.data.user.email,
+        first_name: result.data.user.first_name,
+        last_name: result.data.user.last_name,
+        token: result.data.token.token,
+        id: result.data.user._id,
+        profilePicUrl: result.data.user.profilePicUrl,
+      };
+      setUser(updatedUser);
+      setRelUser(result.data.user);
+      axios.defaults.headers.common["Authorization"] = result.data.token.token;
+    });
+  };
+
   const toggleEditProfile = () => {
     setEditing(!editing);
   };
@@ -114,7 +133,11 @@ const Profile = ({ user }) => {
         <Grid item xs={12} md={8}>
           <Paper className={classes.paper}>
             {editing ? (
-              <EditProfileForm toggleEditProfile={toggleEditProfile} />
+              <EditProfileForm
+                user={relUser}
+                toggleEditProfile={toggleEditProfile}
+                handleUpdateProfile={handleUpdateProfile}
+              />
             ) : (
               <UserInfo
                 user={relUser}

@@ -34,12 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditProfileForm = () => {
+const EditProfileForm = ({ user, toggleEditProfile, handleUpdateProfile }) => {
   const classes = useStyles();
-
-  const handleSubmit = () => {};
-
-  const handleCancel = () => {};
 
   return (
     <div className={classes.root}>
@@ -49,23 +45,28 @@ const EditProfileForm = () => {
 
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
+          firstName: user.first_name,
+          lastName: user.last_name,
+          email: user.email,
           password: "",
           confirmPassword: "",
         }}
         onSubmit={(values, { resetForm }) => {
-          // submission logic
+          handleUpdateProfile(values);
           resetForm();
+          toggleEditProfile();
         }}
-        onReset={(values, { resetForm }) => {
-          console.log("reset");
-          resetForm();
-        }}
+        // reset={({ handleReset }) => {
+        //   console.log("reset");
+        //   handleReset();
+        // }}
+        // onReset={(values, { resetForm }) => {
+        //   console.log("reset");
+        //   resetForm();
+        // }}
       >
         {(props) => (
-          <Form onSubmit={Formik.handleSubmit}>
+          <Form>
             <FormTextField name="firstName" type="text" label="First Name" />
             <FormTextField name="lastName" type="text" label="Last Name" />
             <FormTextField name="email" type="email" label="Email" />
@@ -85,14 +86,15 @@ const EditProfileForm = () => {
               variant="outlined"
               className={classes.button}
               type="submit"
-              // onClick={handleSubmit}
+              onClick={Formik.handleSubmit}
             >
               Save changes
             </Button>
             <Button
               variant="outlined"
               className={classes.dangerButton}
-              // onClick={formik.handleCancel}
+              type="reset"
+              onClick={toggleEditProfile}
             >
               Cancel changes
             </Button>

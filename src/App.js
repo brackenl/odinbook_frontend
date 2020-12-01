@@ -25,7 +25,7 @@ const App = () => {
       <NavBar user={user} setUser={setUser} />
       <Switch>
         <Route path="/users/:userId">
-          <Profile user={user} />
+          <Profile user={user} setUser={setUser} />
         </Route>
         <Route path="/login" exact>
           <LogIn user={user} setUser={setUser} />
