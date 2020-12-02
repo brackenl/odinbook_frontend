@@ -26,10 +26,8 @@ const FormTextField = ({ formikKey, ...props }) => {
         helperText={meta.touched ? meta.error : ""}
         error={meta.touched && Boolean(meta.error)}
         value={field.value}
-        // placeholder={field.name}
         onChange={field.onChange}
         {...props}
-        // label="Email"
         style={{ margin: 8 }}
         fullWidth
         margin="normal"

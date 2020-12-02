@@ -15,6 +15,7 @@ import UserInfo from "./UserInfo";
 // import useLocalStorage from "../../hooks/useLocalStorage";
 import axiosFns from "../../utils/axiosFns";
 import EditProfileForm from "./EditProfileForm";
+import EditImageForm from "./EditImageForm";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
 const Profile = ({ user, setUser }) => {
   const [relUser, setRelUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [editing, setEditing] = useState(false);
+  const [profileEditing, setProfileEditing] = useState(false);
+  const [imageEditing, setImageEditing] = useState(false);
 
   // const [updatedUser, setUser] = useLocalStorage("user", "");
 
@@ -119,8 +121,22 @@ const Profile = ({ user, setUser }) => {
     });
   };
 
+  const handleUpdateImage = (imageFile) => {
+    const formData = new FormData();
+    formData.append("img-file", imageFile);
+    axios
+      .post(`/users/${user.id}/profileimage`, formData, {})
+      .then((result) => {
+        setRelUser(result.data.user);
+      });
+  };
+
   const toggleEditProfile = () => {
-    setEditing(!editing);
+    setProfileEditing(!profileEditing);
+  };
+
+  const toggleEditImage = () => {
+    setImageEditing(!imageEditing);
   };
 
   if (!relUser) {
@@ -132,11 +148,17 @@ const Profile = ({ user, setUser }) => {
       <Grid container spacing={3} className={classes.grid}>
         <Grid item xs={12} md={8}>
           <Paper className={classes.paper}>
-            {editing ? (
+            {profileEditing ? (
               <EditProfileForm
                 user={relUser}
                 toggleEditProfile={toggleEditProfile}
                 handleUpdateProfile={handleUpdateProfile}
+              />
+            ) : imageEditing ? (
+              <EditImageForm
+                user={relUser}
+                toggleEditImage={toggleEditImage}
+                handleUpdateImage={handleUpdateImage}
               />
             ) : (
               <UserInfo
@@ -148,6 +170,7 @@ const Profile = ({ user, setUser }) => {
                 handleCancelFriendReq={handleCancelFriendReq}
                 handleRemoveFriend={handleRemoveFriend}
                 toggleEditProfile={toggleEditProfile}
+                toggleEditImage={toggleEditImage}
               />
             )}
           </Paper>

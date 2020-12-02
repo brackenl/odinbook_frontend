@@ -56,25 +56,12 @@ const EditProfileForm = ({ user, toggleEditProfile, handleUpdateProfile }) => {
           resetForm();
           toggleEditProfile();
         }}
-        // reset={({ handleReset }) => {
-        //   console.log("reset");
-        //   handleReset();
-        // }}
-        // onReset={(values, { resetForm }) => {
-        //   console.log("reset");
-        //   resetForm();
-        // }}
       >
         {(props) => (
           <Form>
             <FormTextField name="firstName" type="text" label="First Name" />
             <FormTextField name="lastName" type="text" label="Last Name" />
             <FormTextField name="email" type="email" label="Email" />
-            {/* <FormTextField
-              name="lastName"
-              type="file"
-              label="Profile Picture"
-            /> */}
             <FormTextField name="password" type="password" label="Password" />
             <FormTextField
               name="confirmPassword"

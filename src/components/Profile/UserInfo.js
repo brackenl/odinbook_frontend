@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import ImageIcon from "@material-ui/icons/Image";
 
 // import UserAvatar from "./UserAvatar";
 import FriendButtons from "./FriendButtons";
@@ -46,6 +47,7 @@ const UserInfo = ({
   handleCancelFriendReq,
   handleRemoveFriend,
   toggleEditProfile,
+  toggleEditImage,
 }) => {
   const [friendsArr, setFriendsArr] = useState([]);
   const [friendReqsArr, setFriendReqsArr] = useState([]);
@@ -79,14 +81,24 @@ const UserInfo = ({
             handleFriendReq={handleFriendReq}
           />
         ) : (
-          <Button
-            variant="outlined"
-            className={classes.button}
-            startIcon={<AccountBoxIcon />}
-            onClick={toggleEditProfile}
-          >
-            Edit Profile
-          </Button>
+          <>
+            <Button
+              variant="outlined"
+              className={classes.button}
+              startIcon={<AccountBoxIcon />}
+              onClick={toggleEditProfile}
+            >
+              Edit Profile
+            </Button>
+            <Button
+              variant="outlined"
+              className={classes.button}
+              startIcon={<ImageIcon />}
+              onClick={toggleEditImage}
+            >
+              Edit Profile Photo
+            </Button>
+          </>
         )}
       </div>
     </div>
