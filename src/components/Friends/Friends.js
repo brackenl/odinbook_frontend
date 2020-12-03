@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyItems: "flex-end",
   },
   paper: {
     padding: theme.spacing(2),
@@ -56,7 +57,13 @@ const Friends = ({ user }) => {
   return (
     <Container maxWidth="xl" className={classes.container}>
       <Grid container spacing={3} className={classes.grid}>
-        <Grid item xs={12} md={9} className={classes.friendGrid}>
+        <Grid
+          item
+          xs={12}
+          md={9}
+          className={classes.friendGrid}
+          // justify="space-between"
+        >
           <Typography variant="h6" className={classes.heading}>
             Friend Requests
           </Typography>

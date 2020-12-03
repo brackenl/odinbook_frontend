@@ -5,12 +5,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 
 import axios from "../../utils/axios";
 
 import NewPostForm from "../NewPostForm";
 import PostContainer from "../Posts/PostContainer";
 import UserInfo from "./UserInfo";
+import LinkList from "../LinkList";
 
 import axiosFns from "../../utils/axiosFns";
 import EditProfileForm from "./EditProfileForm";
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "10px",
   },
   grid: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   paper: {
     padding: theme.spacing(2),
@@ -155,7 +157,14 @@ const Profile = ({ user, setUser }) => {
   return (
     <Container maxWidth="xl" className={classes.container}>
       <Grid container spacing={3} className={classes.grid}>
-        <Grid item xs={12} md={8}>
+        <Hidden mdDown>
+          <Grid item md={3}>
+            <Paper className={classes.paper}>
+              <LinkList user={user} />
+            </Paper>
+          </Grid>
+        </Hidden>
+        <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
             {profileEditing ? (
               <EditProfileForm
@@ -184,19 +193,24 @@ const Profile = ({ user, setUser }) => {
             )}
           </Paper>
         </Grid>
-        <Grid item xs={12} md={8}>
-          {relUser._id === user.id ? (
-            <Paper className={classes.paper}>
-              <NewPostForm user={relUser} handlePostSubmit={handlePostSubmit} />
-            </Paper>
-          ) : null}
-          <PostContainer
-            user={relUser}
-            posts={posts.filter((post) => post.author._id == relUser._id)}
-            handleCommentSubmit={handleCommentSubmit}
-            handleLikePost={handleLikePost}
-            handleLikeComment={handleLikeComment}
-          />
+        <Grid container xs={12} md={12} justify="center">
+          <Grid item xs={12} md={6}>
+            {relUser._id === user.id ? (
+              <Paper className={classes.paper}>
+                <NewPostForm
+                  user={relUser}
+                  handlePostSubmit={handlePostSubmit}
+                />
+              </Paper>
+            ) : null}
+            <PostContainer
+              user={relUser}
+              posts={posts.filter((post) => post.author._id == relUser._id)}
+              handleCommentSubmit={handleCommentSubmit}
+              handleLikePost={handleLikePost}
+              handleLikeComment={handleLikeComment}
+            />
+          </Grid>
         </Grid>
       </Grid>
     </Container>

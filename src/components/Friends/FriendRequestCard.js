@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     backgroundColor: "rgb(32,33,34)",
     color: "white",
-    marginBottom: 20,
+    margin: "20px 10px",
     width: "25%",
   },
   userDetails: {

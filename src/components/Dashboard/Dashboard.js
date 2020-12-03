@@ -10,7 +10,7 @@ import axios from "../../utils/axios";
 
 import NewPostForm from "../NewPostForm";
 import PostContainer from "../Posts/PostContainer";
-import LinkList from "./LinkList";
+import LinkList from "../LinkList";
 import FriendsList from "./FriendsList";
 
 import axiosFns from "../../utils/axiosFns";
@@ -95,7 +95,7 @@ const Dashboard = ({ user }) => {
     <Container maxWidth="xl" className={classes.container}>
       <Grid container spacing={3} className={classes.grid}>
         <Hidden mdDown>
-          <Grid item xs={0} md={3}>
+          <Grid item md={3}>
             <Paper className={classes.paper}>
               <LinkList user={user} />
             </Paper>
@@ -114,7 +114,7 @@ const Dashboard = ({ user }) => {
           />
         </Grid>
         <Hidden mdDown>
-          <Grid item xs={0} md={3}>
+          <Grid item md={3}>
             <Paper className={classes.paper}>
               <FriendsList
                 friends={userFriends}
