@@ -37,7 +37,7 @@ const PostContainer = ({
   const classes = useStyles();
 
   if (!posts) {
-    return <div class="loader">Loading...</div>;
+    return <div className="loader">Loading...</div>;
   }
 
   return (

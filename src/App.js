@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar/NavBar";
 import LogIn from "./components/LogIn/LogIn";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Profile from "./components/Profile/Profile";
+import Friends from "./components/Friends/Friends";
 
 import "./App.css";
 
@@ -24,10 +25,13 @@ const App = () => {
     <div className="App">
       <NavBar user={user} setUser={setUser} />
       <Switch>
+        <Route path="/friends">
+          <Friends user={user} />
+        </Route>
         <Route path="/users/:userId">
           <Profile user={user} setUser={setUser} />
         </Route>
-        <Route path="/login" exact>
+        <Route path="/login">
           <LogIn user={user} setUser={setUser} />
         </Route>
         <Route path="/">

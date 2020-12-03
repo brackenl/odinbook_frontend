@@ -12,7 +12,6 @@ import NewPostForm from "../NewPostForm";
 import PostContainer from "../Posts/PostContainer";
 import UserInfo from "./UserInfo";
 
-// import useLocalStorage from "../../hooks/useLocalStorage";
 import axiosFns from "../../utils/axiosFns";
 import EditProfileForm from "./EditProfileForm";
 import EditImageForm from "./EditImageForm";
@@ -127,7 +126,17 @@ const Profile = ({ user, setUser }) => {
     axios
       .post(`/users/${user.id}/profileimage`, formData, {})
       .then((result) => {
+        const updatedUser = {
+          email: result.data.user.email,
+          first_name: result.data.user.first_name,
+          last_name: result.data.user.last_name,
+          token: user.token,
+          id: result.data.user._id,
+          profilePicUrl: result.data.user.profilePicUrl,
+        };
+        setUser(updatedUser);
         setRelUser(result.data.user);
+        toggleEditImage();
       });
   };
 
