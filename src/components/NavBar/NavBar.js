@@ -9,6 +9,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import Hidden from "@material-ui/core/Hidden";
+
+import NavDrawer from "./NavDrawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +33,7 @@ const NavBar = ({ user, setUser }) => {
   const history = useHistory();
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const open = Boolean(anchorEl);
 
   const handleMenu = (event) => {
@@ -38,6 +42,10 @@ const NavBar = ({ user, setUser }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
   };
 
   const handleLogOut = () => {
@@ -57,14 +65,22 @@ const NavBar = ({ user, setUser }) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
+          <Hidden lgUp>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+          <NavDrawer
+            user={user}
+            drawerOpen={drawerOpen}
+            toggleDrawer={toggleDrawer}
+          />
           <div className={classes.title}>
             <img
               src={process.env.PUBLIC_URL + "/odinbook-logo.png"}

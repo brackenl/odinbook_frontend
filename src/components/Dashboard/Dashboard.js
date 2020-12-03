@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 
 import axios from "../../utils/axios";
 
@@ -93,11 +94,13 @@ const Dashboard = ({ user }) => {
   return (
     <Container maxWidth="xl" className={classes.container}>
       <Grid container spacing={3} className={classes.grid}>
-        <Grid item xs={0} md={3}>
-          <Paper className={classes.paper}>
-            <LinkList user={user} />
-          </Paper>
-        </Grid>
+        <Hidden mdDown>
+          <Grid item xs={0} md={3}>
+            <Paper className={classes.paper}>
+              <LinkList user={user} />
+            </Paper>
+          </Grid>
+        </Hidden>
         <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
             <NewPostForm user={user} handlePostSubmit={handlePostSubmit} />
@@ -110,16 +113,18 @@ const Dashboard = ({ user }) => {
             handleLikeComment={handleLikeComment}
           />
         </Grid>
-        <Grid item xs={0} md={3}>
-          <Paper className={classes.paper}>
-            <FriendsList
-              friends={userFriends}
-              friendRequests={friendRequests}
-              handleAcceptRequest={handleAcceptRequest}
-              handleDeclineRequest={handleDeclineRequest}
-            />
-          </Paper>
-        </Grid>
+        <Hidden mdDown>
+          <Grid item xs={0} md={3}>
+            <Paper className={classes.paper}>
+              <FriendsList
+                friends={userFriends}
+                friendRequests={friendRequests}
+                handleAcceptRequest={handleAcceptRequest}
+                handleDeclineRequest={handleDeclineRequest}
+              />
+            </Paper>
+          </Grid>
+        </Hidden>
       </Grid>
     </Container>
   );

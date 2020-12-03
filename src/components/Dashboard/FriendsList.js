@@ -98,7 +98,6 @@ const FriendsList = ({
         }
       >
         {friends.map((friend, index) => {
-          console.log(friend);
           return (
             <div key={friend._id}>
               <ListItem button onClick={() => handleFriendClick(friend._id)}>
