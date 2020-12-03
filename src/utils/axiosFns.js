@@ -7,11 +7,13 @@ const sortPosts = (arr) => {
   return sortedArr;
 };
 
-const axiosFns = (postsArr, setPostsArr, user) => {
+const axiosFns = (postsArr, setPostsArr, user, skip) => {
   const getPosts = () => {
-    axios.get("/posts").then((results) => {
-      setPostsArr(sortPosts(results.data.posts));
-    });
+    axios
+      .get(`/posts/?skip=${skip}`, { data: { skip: skip } })
+      .then((results) => {
+        setPostsArr(sortPosts([...postsArr, ...results.data.posts]));
+      });
   };
 
   const handlePostSubmit = (postText) => {

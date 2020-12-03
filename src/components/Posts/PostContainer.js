@@ -2,18 +2,13 @@ import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 
 import Post from "./Post";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    backgroundColor: "rgb(23, 24, 25)",
+  root: {
     height: "100vh",
-    marginTop: "10px",
-  },
-  grid: {
-    justifyContent: "center",
+    overflowY: "scroll",
   },
   paper: {
     padding: theme.spacing(2),
@@ -21,9 +16,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgb(32,33,34)",
     color: "white",
     marginBottom: 20,
-  },
-  noPostsText: {
-    color: "white",
   },
 }));
 
@@ -33,34 +25,29 @@ const PostContainer = ({
   handleCommentSubmit,
   handleLikePost,
   handleLikeComment,
+  handleScroll,
 }) => {
   const classes = useStyles();
 
-  if (!posts) {
+  if (!posts.length) {
     return <div className="loader">Loading...</div>;
   }
 
   return (
-    <div>
-      {posts.length > 0 ? (
-        posts.slice(0, 9).map((post) => {
-          return (
-            <Paper className={classes.paper} key={post._id}>
-              <Post
-                post={post}
-                user={user}
-                handleCommentSubmit={handleCommentSubmit}
-                handleLikePost={handleLikePost}
-                handleLikeComment={handleLikeComment}
-              />
-            </Paper>
-          );
-        })
-      ) : (
-        <Typography className={classes.noPostsText}>
-          {user.first_name} hasn't posted yet!
-        </Typography>
-      )}
+    <div onScroll={handleScroll} className={classes.root}>
+      {posts.map((post) => {
+        return (
+          <Paper className={classes.paper} key={post._id}>
+            <Post
+              post={post}
+              user={user}
+              handleCommentSubmit={handleCommentSubmit}
+              handleLikePost={handleLikePost}
+              handleLikeComment={handleLikeComment}
+            />
+          </Paper>
+        );
+      })}
     </div>
   );
 };

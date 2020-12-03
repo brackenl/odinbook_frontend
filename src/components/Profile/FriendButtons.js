@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FriendButtons = ({
+  user,
   friendsArr,
   friendReqsArr,
   loggedInUser,

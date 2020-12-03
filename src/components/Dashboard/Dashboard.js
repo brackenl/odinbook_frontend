@@ -34,9 +34,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Dashboard = ({ user }) => {
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [userFriends, setUserFriends] = useState([]);
   const [friendRequests, setFriendRequests] = useState([]);
+  const [skip, setSkip] = useState(0);
   const classes = useStyles();
 
   const {
@@ -45,11 +46,11 @@ const Dashboard = ({ user }) => {
     handleLikePost,
     handleCommentSubmit,
     handleLikeComment,
-  } = axiosFns(posts, setPosts, user);
+  } = axiosFns(posts, setPosts, user, skip);
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [skip]);
 
   useEffect(() => {
     if (user) {
@@ -91,41 +92,52 @@ const Dashboard = ({ user }) => {
       });
   };
 
+  const handleScroll = (e) => {
+    const bottom =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) {
+      setSkip(posts.length);
+    }
+  };
+
   return (
     <Container maxWidth="xl" className={classes.container}>
-      <Grid container spacing={3} className={classes.grid}>
-        <Hidden mdDown>
-          <Grid item md={3}>
+      <div>
+        <Grid container spacing={3} className={classes.grid}>
+          <Hidden mdDown>
+            <Grid item md={3}>
+              <Paper className={classes.paper}>
+                <LinkList user={user} />
+              </Paper>
+            </Grid>
+          </Hidden>
+          <Grid item xs={12} md={6}>
             <Paper className={classes.paper}>
-              <LinkList user={user} />
+              <NewPostForm user={user} handlePostSubmit={handlePostSubmit} />
             </Paper>
+            <PostContainer
+              user={user}
+              posts={posts}
+              handleCommentSubmit={handleCommentSubmit}
+              handleLikePost={handleLikePost}
+              handleLikeComment={handleLikeComment}
+              handleScroll={handleScroll}
+            />
           </Grid>
-        </Hidden>
-        <Grid item xs={12} md={6}>
-          <Paper className={classes.paper}>
-            <NewPostForm user={user} handlePostSubmit={handlePostSubmit} />
-          </Paper>
-          <PostContainer
-            user={user}
-            posts={posts}
-            handleCommentSubmit={handleCommentSubmit}
-            handleLikePost={handleLikePost}
-            handleLikeComment={handleLikeComment}
-          />
+          <Hidden mdDown>
+            <Grid item md={3}>
+              <Paper className={classes.paper}>
+                <FriendsList
+                  friends={userFriends}
+                  friendRequests={friendRequests}
+                  handleAcceptRequest={handleAcceptRequest}
+                  handleDeclineRequest={handleDeclineRequest}
+                />
+              </Paper>
+            </Grid>
+          </Hidden>
         </Grid>
-        <Hidden mdDown>
-          <Grid item md={3}>
-            <Paper className={classes.paper}>
-              <FriendsList
-                friends={userFriends}
-                friendRequests={friendRequests}
-                handleAcceptRequest={handleAcceptRequest}
-                handleDeclineRequest={handleDeclineRequest}
-              />
-            </Paper>
-          </Grid>
-        </Hidden>
-      </Grid>
+      </div>
     </Container>
   );
 };

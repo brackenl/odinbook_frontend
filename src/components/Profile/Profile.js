@@ -41,8 +41,7 @@ const Profile = ({ user, setUser }) => {
   const [posts, setPosts] = useState([]);
   const [profileEditing, setProfileEditing] = useState(false);
   const [imageEditing, setImageEditing] = useState(false);
-
-  // const [updatedUser, setUser] = useLocalStorage("user", "");
+  const [skip, setSkip] = useState(0);
 
   const classes = useStyles();
   const { userId } = useParams();
@@ -53,7 +52,7 @@ const Profile = ({ user, setUser }) => {
     handleLikePost,
     handleCommentSubmit,
     handleLikeComment,
-  } = axiosFns(posts, setPosts, relUser);
+  } = axiosFns(posts, setPosts, relUser, user, skip);
 
   useEffect(() => {
     getPosts();
@@ -150,6 +149,15 @@ const Profile = ({ user, setUser }) => {
     setImageEditing(!imageEditing);
   };
 
+  const handleScroll = (e) => {
+    const bottom =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) {
+      console.log("firing");
+      setSkip(posts.length);
+    }
+  };
+
   if (!relUser) {
     return <div className="loader">Loading...</div>;
   }
@@ -209,6 +217,7 @@ const Profile = ({ user, setUser }) => {
               handleCommentSubmit={handleCommentSubmit}
               handleLikePost={handleLikePost}
               handleLikeComment={handleLikeComment}
+              handleScroll={handleScroll}
             />
           </Grid>
         </Grid>

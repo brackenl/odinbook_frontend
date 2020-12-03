@@ -73,6 +73,7 @@ const UserInfo = ({
         <Typography variant="h5">{`${user.first_name} ${user.last_name}`}</Typography>
         {user._id != loggedInUser.id ? (
           <FriendButtons
+            user={user}
             friendsArr={friendsArr}
             friendReqsArr={friendReqsArr}
             loggedInUser={loggedInUser}
