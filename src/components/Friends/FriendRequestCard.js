@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     margin: "20px 10px",
     width: "25%",
+    [theme.breakpoints.down("md")]: {
+      width: "40%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
   userDetails: {
     flexDirection: "row",
@@ -38,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     width: "100%",
-    justifyItems: "center",
+    justifyContent: "space-around",
   },
   acceptButton: { color: "green" },
   declineButton: {
@@ -62,9 +68,6 @@ const FriendCard = ({ friend }) => {
           <Typography variant="body1" className={classes.friendName}>
             {friend.first_name} {friend.last_name}
           </Typography>
-          {/* <Typography variant="body1" className={classes.friendName}>
-            {friend.last_name}
-          </Typography> */}
         </CardContent>
         <CardActions className={classes.buttonContainer}>
           <Button size="small" className={classes.acceptButton}>

@@ -25,20 +25,26 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "10px",
   },
   grid: {
-    justifyContent: "flex-start",
+    [theme.breakpoints.down("md")]: {
+      justifyContent: "center",
+    },
+    [theme.breakpoints.up("lg")]: {
+      justifyContent: "flex-start",
+    },
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
     backgroundColor: "rgb(32,33,34)",
     color: "white",
-    marginBottom: 20,
+    margin: "0 5px 20px 5px",
   },
 }));
 
 const Profile = ({ user, setUser }) => {
   const [relUser, setRelUser] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [loadingPosts, setLoadingPosts] = useState(false);
   const [profileEditing, setProfileEditing] = useState(false);
   const [imageEditing, setImageEditing] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -52,7 +58,7 @@ const Profile = ({ user, setUser }) => {
     handleLikePost,
     handleCommentSubmit,
     handleLikeComment,
-  } = axiosFns(posts, setPosts, relUser, user, skip);
+  } = axiosFns(posts, setPosts, user, skip, setLoadingPosts);
 
   useEffect(() => {
     getPosts();
@@ -62,7 +68,7 @@ const Profile = ({ user, setUser }) => {
     axios.get(`/users/${userId}`).then((results) => {
       setRelUser(results.data.user);
     });
-  }, []);
+  }, [userId]);
 
   const handleFriendReq = (profileId) => {
     axios
@@ -172,6 +178,7 @@ const Profile = ({ user, setUser }) => {
             </Paper>
           </Grid>
         </Hidden>
+
         <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
             {profileEditing ? (
@@ -201,7 +208,7 @@ const Profile = ({ user, setUser }) => {
             )}
           </Paper>
         </Grid>
-        <Grid container xs={12} md={12} justify="center">
+        <Grid container spacing={3} justify="center">
           <Grid item xs={12} md={6}>
             {relUser._id === user.id ? (
               <Paper className={classes.paper}>
@@ -218,6 +225,7 @@ const Profile = ({ user, setUser }) => {
               handleLikePost={handleLikePost}
               handleLikeComment={handleLikeComment}
               handleScroll={handleScroll}
+              loadingPosts={loadingPosts}
             />
           </Grid>
         </Grid>

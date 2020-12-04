@@ -15,7 +15,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     backgroundColor: "rgb(32,33,34)",
     color: "white",
-    marginBottom: 20,
+    margin: "0 0px 20px 0px",
+  },
+  noPost: {
+    color: "white",
   },
 }));
 
@@ -26,11 +29,20 @@ const PostContainer = ({
   handleLikePost,
   handleLikeComment,
   handleScroll,
+  loadingPosts,
 }) => {
   const classes = useStyles();
 
-  if (!posts.length) {
+  if (loadingPosts) {
     return <div className="loader">Loading...</div>;
+  }
+
+  if (!posts.length) {
+    return (
+      <Paper className={classes.paper}>
+        <div className={classes.noPost}>No posts here...</div>
+      </Paper>
+    );
   }
 
   return (

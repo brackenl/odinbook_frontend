@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import GroupIcon from "@material-ui/icons/Group";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 import UserAvatar from "./UserAvatar";
 
@@ -44,6 +45,16 @@ const LinkList = ({ user }) => {
           <ListItemText
             primary="Friends"
             onClick={() => handleClick(`/friends`)}
+          />
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary="Account"
+            onClick={() => handleClick(`/account`)}
           />
         </ListItem>
       </List>

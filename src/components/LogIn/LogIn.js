@@ -54,6 +54,8 @@ const Login = ({ user, setUser }) => {
           first_name: result.data.user.first_name,
           last_name: result.data.user.last_name,
           token: result.data.token.token,
+          id: result.data.user.id,
+          profilePicUrl: result.data.user.profilePicUrl,
         };
         setUser(user);
         axios.defaults.headers.common["Authorization"] =

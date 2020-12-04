@@ -51,6 +51,7 @@ const NavBar = ({ user, setUser }) => {
   const handleLogOut = () => {
     setUser("");
     handleClose();
+    setDrawerOpen(false);
   };
 
   const handleLogoClick = () => {
@@ -59,6 +60,12 @@ const NavBar = ({ user, setUser }) => {
 
   const handleProfileClick = () => {
     history.push(`/users/${user.id}`);
+    handleClose();
+  };
+
+  const handleAccountClick = () => {
+    history.push("/account");
+    handleClose();
   };
 
   return (
@@ -80,6 +87,7 @@ const NavBar = ({ user, setUser }) => {
             user={user}
             drawerOpen={drawerOpen}
             toggleDrawer={toggleDrawer}
+            handleLogOut={handleLogOut}
           />
           <div className={classes.title}>
             <img
@@ -90,36 +98,38 @@ const NavBar = ({ user, setUser }) => {
             />
           </div>
           {user && (
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleLogOut}>Log out</MenuItem>
-              </Menu>
-            </div>
+            <Hidden mdDown>
+              <div>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+                  <MenuItem onClick={handleAccountClick}>Account</MenuItem>
+                  <MenuItem onClick={handleLogOut}>Log out</MenuItem>
+                </Menu>
+              </div>
+            </Hidden>
           )}
         </Toolbar>
       </AppBar>

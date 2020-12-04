@@ -7,12 +7,14 @@ const sortPosts = (arr) => {
   return sortedArr;
 };
 
-const axiosFns = (postsArr, setPostsArr, user, skip) => {
+const axiosFns = (postsArr, setPostsArr, user, skip, setLoading) => {
   const getPosts = () => {
+    if (skip === 0) setLoading(true);
     axios
       .get(`/posts/?skip=${skip}`, { data: { skip: skip } })
       .then((results) => {
         setPostsArr(sortPosts([...postsArr, ...results.data.posts]));
+        if (skip === 0) setLoading(false);
       });
   };
 

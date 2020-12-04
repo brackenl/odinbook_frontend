@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     margin: "20px 10px",
     width: "25%",
+    [theme.breakpoints.down("md")]: {
+      width: "40%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
 }));
 

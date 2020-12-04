@@ -57,13 +57,7 @@ const Friends = ({ user }) => {
   return (
     <Container maxWidth="xl" className={classes.container}>
       <Grid container spacing={3} className={classes.grid}>
-        <Grid
-          item
-          xs={12}
-          md={9}
-          className={classes.friendGrid}
-          // justify="space-between"
-        >
+        <Grid item xs={12} md={9} className={classes.friendGrid}>
           <Typography variant="h6" className={classes.heading}>
             Friend Requests
           </Typography>

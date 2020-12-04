@@ -9,6 +9,9 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import GroupIcon from "@material-ui/icons/Group";
+import SettingsIcon from "@material-ui/icons/Settings";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import HomeIcon from "@material-ui/icons/Home";
 
 import UserAvatar from "../UserAvatar";
 
@@ -22,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-const NavDrawer = ({ user, drawerOpen, toggleDrawer }) => {
+const NavDrawer = ({ user, drawerOpen, toggleDrawer, handleLogOut }) => {
   const history = useHistory();
   const classes = useStyles();
 
@@ -35,12 +38,10 @@ const NavDrawer = ({ user, drawerOpen, toggleDrawer }) => {
     <div>
       <React.Fragment>
         <Drawer
-          // anchor={anchor}
           open={drawerOpen}
           onClose={toggleDrawer}
           classes={{ paper: classes.paper }}
         >
-          {/* <div> */}
           <List className={classes.list}>
             <ListItem button onClick={() => handleClick(`/users/${user.id}`)}>
               <ListItemIcon>
@@ -48,7 +49,14 @@ const NavDrawer = ({ user, drawerOpen, toggleDrawer }) => {
               </ListItemIcon>
               <ListItemText primary={`${user.first_name} ${user.last_name}`} />
             </ListItem>
-            {/* <Divider /> */}
+            <Divider />
+            <ListItem button onClick={() => handleClick("/")}>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
+            <Divider />
             <ListItem button>
               <ListItemIcon>
                 <GroupIcon />
@@ -58,8 +66,24 @@ const NavDrawer = ({ user, drawerOpen, toggleDrawer }) => {
                 onClick={() => handleClick(`/friends`)}
               />
             </ListItem>
+            <Divider />
+            <ListItem button>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary="Account"
+                onClick={() => handleClick(`/account`)}
+              />
+            </ListItem>
+            <Divider />
+            <ListItem button>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Log out" onClick={handleLogOut} />
+            </ListItem>
           </List>
-          {/* </div> */}
         </Drawer>
       </React.Fragment>
     </div>

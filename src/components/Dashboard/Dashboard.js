@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = ({ user }) => {
   const [posts, setPosts] = useState([]);
+  const [loadingPosts, setLoadingPosts] = useState(false);
   const [userFriends, setUserFriends] = useState([]);
   const [friendRequests, setFriendRequests] = useState([]);
   const [skip, setSkip] = useState(0);
@@ -46,7 +47,7 @@ const Dashboard = ({ user }) => {
     handleLikePost,
     handleCommentSubmit,
     handleLikeComment,
-  } = axiosFns(posts, setPosts, user, skip);
+  } = axiosFns(posts, setPosts, user, skip, setLoadingPosts);
 
   useEffect(() => {
     getPosts();
@@ -122,6 +123,7 @@ const Dashboard = ({ user }) => {
               handleLikePost={handleLikePost}
               handleLikeComment={handleLikeComment}
               handleScroll={handleScroll}
+              loadingPosts={loadingPosts}
             />
           </Grid>
           <Hidden mdDown>
