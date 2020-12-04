@@ -9,7 +9,7 @@ import Hidden from "@material-ui/core/Hidden";
 
 import axios from "../../utils/axios";
 
-import NewPostForm from "../NewPostForm";
+import NewPostForm from "../NewPostForm/NewPostForm";
 import PostContainer from "../Posts/PostContainer";
 import UserInfo from "./UserInfo";
 import LinkList from "../LinkList";

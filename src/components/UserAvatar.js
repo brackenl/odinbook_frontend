@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import useLocalStorage from "../hooks/useLocalStorage";
-
 import Avatar from "@material-ui/core/Avatar";
 
 const UserAvatar = ({ user }) => {
-  // const [user, setUser] = useLocalStorage("user", "");
   const [initials, setInitials] = useState("");
 
   useEffect(() => {

@@ -18,11 +18,22 @@ const axiosFns = (postsArr, setPostsArr, user, skip, setLoading) => {
       });
   };
 
-  const handlePostSubmit = (postText) => {
-    axios.post("/posts", { content: postText }).then((result) => {
-      const updatedPosts = [...postsArr, result.data.post];
+  const handlePostSubmit = async (postText, imageFile) => {
+    if (imageFile) {
+      const formData = new FormData();
+      formData.append("img-file", imageFile);
+
+      const res = await axios.post("/posts", { content: postText });
+      const res2 = await axios.put(`/posts/${res.data.post._id}`, formData);
+
+      const updatedPosts = [...postsArr, res2.data.post];
       setPostsArr(sortPosts(updatedPosts));
-    });
+    } else {
+      axios.post("/posts", { content: postText }).then((result) => {
+        const updatedPosts = [...postsArr, result.data.post];
+        setPostsArr(sortPosts(updatedPosts));
+      });
+    }
   };
 
   const handleLikePost = (postId) => {

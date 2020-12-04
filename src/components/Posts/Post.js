@@ -95,7 +95,8 @@ const Post = ({
           {post.content}
         </Typography>
       </div>
-      {post.imgUrl && <img src={post.imgUrl} />}
+      <div>{post.imgUrl && <img src={post.imgUrl} width="100%" />}</div>
+
       <Typography className={classes.postTime} variant="body2">
         {post.likes.length === 1 ? "1 like" : `${post.likes.length} likes`}
       </Typography>
