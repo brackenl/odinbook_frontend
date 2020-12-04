@@ -62,7 +62,7 @@ const Profile = ({ user, setUser }) => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [skip]);
 
   useEffect(() => {
     axios.get(`/users/${userId}`).then((results) => {
@@ -159,7 +159,6 @@ const Profile = ({ user, setUser }) => {
     const bottom =
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     if (bottom) {
-      console.log("firing");
       setSkip(posts.length);
     }
   };
@@ -199,7 +198,6 @@ const Profile = ({ user, setUser }) => {
                 loggedInUser={user}
                 handleFriendReq={handleFriendReq}
                 handleRemoveFriend={handleRemoveFriend}
-                handleFriendReq={handleFriendReq}
                 handleCancelFriendReq={handleCancelFriendReq}
                 handleRemoveFriend={handleRemoveFriend}
                 toggleEditProfile={toggleEditProfile}
