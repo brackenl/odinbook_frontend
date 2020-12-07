@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendCard = ({ friend }) => {
+const FriendCard = ({ friend, handleAcceptRequest, handleDeclineRequest }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -62,18 +62,26 @@ const FriendCard = ({ friend }) => {
 
   return (
     <Paper className={classes.paper}>
-      <Card className={classes.root} onClick={handleClick}>
+      <Card className={classes.root}>
         <UserAvatar user={friend} />
-        <CardContent className={classes.userDetails}>
+        <CardContent className={classes.userDetails} onClick={handleClick}>
           <Typography variant="body1" className={classes.friendName}>
             {friend.first_name} {friend.last_name}
           </Typography>
         </CardContent>
         <CardActions className={classes.buttonContainer}>
-          <Button size="small" className={classes.acceptButton}>
+          <Button
+            size="small"
+            className={classes.acceptButton}
+            onClick={() => handleAcceptRequest(friend._id)}
+          >
             Accept
           </Button>
-          <Button size="small" className={classes.declineButton}>
+          <Button
+            size="small"
+            className={classes.declineButton}
+            onClick={() => handleDeclineRequest(friend._id)}
+          >
             Decline
           </Button>
         </CardActions>

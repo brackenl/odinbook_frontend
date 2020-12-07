@@ -47,7 +47,19 @@ const Dashboard = ({ user }) => {
     handleLikePost,
     handleCommentSubmit,
     handleLikeComment,
-  } = axiosFns(posts, setPosts, user, skip, setLoadingPosts);
+    handleAcceptRequest,
+    handleDeclineRequest,
+  } = axiosFns({
+    posts,
+    setPosts,
+    user,
+    skip,
+    setLoadingPosts,
+    userFriends,
+    setUserFriends,
+    friendRequests,
+    setFriendRequests,
+  });
 
   useEffect(() => {
     getPosts();
@@ -62,6 +74,7 @@ const Dashboard = ({ user }) => {
     }
   }, [user]);
 
+  /*
   const handleAcceptRequest = (id) => {
     axios
       .put(`/users/friends/accept`, {
@@ -92,6 +105,7 @@ const Dashboard = ({ user }) => {
         setFriendRequests(updatedFriendReqs);
       });
   };
+  */
 
   const handleScroll = (e) => {
     const bottom =

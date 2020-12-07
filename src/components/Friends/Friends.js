@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 import axios from "../../utils/axios";
+import axiosFns from "../../utils/axiosFns";
 
 import FriendCard from "./FriendCard";
 import FriendRequestCard from "./FriendRequestCard";
@@ -46,6 +47,13 @@ const Friends = ({ user }) => {
   const [friendRequests, setFriendRequests] = useState([]);
   const classes = useStyles();
 
+  const { handleAcceptRequest, handleDeclineRequest } = axiosFns({
+    userFriends,
+    setUserFriends,
+    friendRequests,
+    setFriendRequests,
+  });
+
   useEffect(() => {
     if (user) {
       axios.get(`/users/${user.id}`).then((results) => {
@@ -63,11 +71,20 @@ const Friends = ({ user }) => {
             Search users
           </Typography>
           <UserSearch />
-          <Typography variant="h6" className={classes.heading}>
-            Friend Requests
-          </Typography>
+          {friendRequests ? (
+            <Typography variant="h6" className={classes.heading}>
+              Friend requests
+            </Typography>
+          ) : null}
           {friendRequests.map((friend) => {
-            return <FriendRequestCard friend={friend} key={friend._id} />;
+            return (
+              <FriendRequestCard
+                friend={friend}
+                key={friend._id}
+                handleAcceptRequest={handleAcceptRequest}
+                handleDeclineRequest={handleDeclineRequest}
+              />
+            );
           })}
           <Typography variant="h6" className={classes.heading}>
             Friends

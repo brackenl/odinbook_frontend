@@ -9,6 +9,9 @@ import Typography from "@material-ui/core/Typography";
 import axios from "../../utils/axios";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    marginBottom: 30,
+  },
   inputRoot: {
     color: "white",
     "& .MuiOutlinedInput-notchedOutline": {
@@ -63,7 +66,7 @@ const UserSearch = () => {
   }
 
   return (
-    <div style={{ width: "90%" }}>
+    <div style={{ width: "90%" }} className={classes.root}>
       {error && (
         <div>
           <Typography variant="body1" className={classes.errorText}>
@@ -79,12 +82,6 @@ const UserSearch = () => {
         renderInput={(params) => (
           <TextField
             {...params}
-            // InputProps={{
-            //   style: {
-            //     color: "white",
-            //     borderRadius: 15,
-            //   },
-            // }}
             InputLabelProps={{
               style: {
                 color: "white",

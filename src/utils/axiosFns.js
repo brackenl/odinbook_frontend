@@ -7,14 +7,24 @@ const sortPosts = (arr) => {
   return sortedArr;
 };
 
-const axiosFns = (postsArr, setPostsArr, user, skip, setLoading) => {
+const axiosFns = ({
+  posts,
+  setPosts,
+  user,
+  skip,
+  setLoadingPosts,
+  userFriends,
+  setUserFriends,
+  friendRequests,
+  setFriendRequests,
+}) => {
   const getPosts = () => {
-    if (skip === 0) setLoading(true);
+    if (skip === 0) setLoadingPosts(true);
     axios
       .get(`/posts/?skip=${skip}`, { data: { skip: skip } })
       .then((results) => {
-        setPostsArr(sortPosts([...postsArr, ...results.data.posts]));
-        if (skip === 0) setLoading(false);
+        setPosts(sortPosts([...posts, ...results.data.posts]));
+        if (skip === 0) setLoadingPosts(false);
       });
   };
 
@@ -26,19 +36,19 @@ const axiosFns = (postsArr, setPostsArr, user, skip, setLoading) => {
       const res = await axios.post("/posts", { content: postText });
       const res2 = await axios.put(`/posts/${res.data.post._id}`, formData);
 
-      const updatedPosts = [...postsArr, res2.data.post];
-      setPostsArr(sortPosts(updatedPosts));
+      const updatedPosts = [...posts, res2.data.post];
+      setPosts(sortPosts(updatedPosts));
     } else {
       axios.post("/posts", { content: postText }).then((result) => {
-        const updatedPosts = [...postsArr, result.data.post];
-        setPostsArr(sortPosts(updatedPosts));
+        const updatedPosts = [...posts, result.data.post];
+        setPosts(sortPosts(updatedPosts));
       });
     }
   };
 
   const handleLikePost = (postId) => {
     axios.put(`/posts/${postId}/like`).then((result) => {
-      const updatedPosts = [...postsArr];
+      const updatedPosts = [...posts];
       const relPostInd = updatedPosts.findIndex((post) => post._id == postId);
       if (!updatedPosts[relPostInd].likes.includes(user.id)) {
         updatedPosts[relPostInd].likes.push(user.id);
@@ -47,7 +57,7 @@ const axiosFns = (postsArr, setPostsArr, user, skip, setLoading) => {
           (id) => id != user.id
         );
       }
-      setPostsArr(sortPosts(updatedPosts));
+      setPosts(sortPosts(updatedPosts));
     });
   };
 
@@ -57,19 +67,19 @@ const axiosFns = (postsArr, setPostsArr, user, skip, setLoading) => {
         comment: commentText,
       })
       .then((result) => {
-        const updatedPosts = [...postsArr];
+        const updatedPosts = [...posts];
         const relPostInd = updatedPosts.findIndex((post) => post._id == postId);
         updatedPosts[relPostInd].comments = [
           ...updatedPosts[relPostInd].comments,
           result.data.comment,
         ];
-        setPostsArr(sortPosts(updatedPosts));
+        setPosts(sortPosts(updatedPosts));
       });
   };
 
   const handleLikeComment = (postId, commentId) => {
     axios.put(`/posts/${postId}/comments/${commentId}/like`).then((result) => {
-      const updatedPosts = [...postsArr];
+      const updatedPosts = [...posts];
       const relPostInd = updatedPosts.findIndex((post) => post._id == postId);
       const relCommInd = updatedPosts[relPostInd].comments.findIndex(
         (comm) => comm._id == commentId
@@ -83,8 +93,39 @@ const axiosFns = (postsArr, setPostsArr, user, skip, setLoading) => {
           relPostInd
         ].comments[relCommInd].likes.filter((id) => id != user.id);
       }
-      setPostsArr(sortPosts(updatedPosts));
+      setPosts(sortPosts(updatedPosts));
     });
+  };
+
+  const handleAcceptRequest = (id) => {
+    axios
+      .put(`/users/friends/accept`, {
+        relUserId: id,
+      })
+      .then((result) => {
+        const updatedFriends = [...userFriends, result.data.user];
+        setUserFriends(updatedFriends);
+
+        const updatedFriendReqs = friendRequests.filter(
+          (item) => item._id != id
+        );
+        setFriendRequests(updatedFriendReqs);
+      });
+  };
+
+  const handleDeclineRequest = (id) => {
+    axios
+      .delete(`/users/friends/decline`, {
+        data: {
+          relUserId: id,
+        },
+      })
+      .then((result) => {
+        const updatedFriendReqs = friendRequests.filter(
+          (item) => item._id != id
+        );
+        setFriendRequests(updatedFriendReqs);
+      });
   };
 
   return {
@@ -93,6 +134,8 @@ const axiosFns = (postsArr, setPostsArr, user, skip, setLoading) => {
     handleLikePost,
     handleCommentSubmit,
     handleLikeComment,
+    handleAcceptRequest,
+    handleDeclineRequest,
   };
 };
 

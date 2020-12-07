@@ -58,7 +58,7 @@ const Profile = ({ user, setUser }) => {
     handleLikePost,
     handleCommentSubmit,
     handleLikeComment,
-  } = axiosFns(posts, setPosts, user, skip, setLoadingPosts);
+  } = axiosFns({ posts, setPosts, user, skip, setLoadingPosts });
 
   useEffect(() => {
     getPosts();
