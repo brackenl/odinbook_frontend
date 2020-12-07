@@ -12,6 +12,7 @@ import Menu from "@material-ui/core/Menu";
 import Hidden from "@material-ui/core/Hidden";
 
 import NavDrawer from "./NavDrawer";
+// import UserSearch from "../UserSearch/UserSearch";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,8 +99,9 @@ const NavBar = ({ user, setUser }) => {
             />
           </div>
           {user && (
-            <Hidden mdDown>
-              <div>
+            <div>
+              {/* <UserSearch /> */}
+              <Hidden mdDown>
                 <IconButton
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
@@ -128,8 +130,8 @@ const NavBar = ({ user, setUser }) => {
                   <MenuItem onClick={handleAccountClick}>Account</MenuItem>
                   <MenuItem onClick={handleLogOut}>Log out</MenuItem>
                 </Menu>
-              </div>
-            </Hidden>
+              </Hidden>
+            </div>
           )}
         </Toolbar>
       </AppBar>

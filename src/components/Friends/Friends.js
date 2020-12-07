@@ -9,6 +9,7 @@ import axios from "../../utils/axios";
 
 import FriendCard from "./FriendCard";
 import FriendRequestCard from "./FriendRequestCard";
+import UserSearch from "../UserSearch/UserSearch";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,6 +59,10 @@ const Friends = ({ user }) => {
     <Container maxWidth="xl" className={classes.container}>
       <Grid container spacing={3} className={classes.grid}>
         <Grid item xs={12} md={9} className={classes.friendGrid}>
+          <Typography variant="h6" className={classes.heading}>
+            Search users
+          </Typography>
+          <UserSearch />
           <Typography variant="h6" className={classes.heading}>
             Friend Requests
           </Typography>
