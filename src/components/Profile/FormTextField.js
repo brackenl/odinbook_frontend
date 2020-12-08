@@ -16,7 +16,10 @@ const useStyles = makeStyles((theme) => ({
 
 const FormTextField = ({ formikKey, ...props }) => {
   const classes = useStyles();
-  const [field, meta, helpers] = useField(props);
+  const [field, meta, helpers] = useField(formikKey);
+
+  console.log(meta);
+  // console.log(props);
 
   return (
     <>
@@ -41,9 +44,6 @@ const FormTextField = ({ formikKey, ...props }) => {
         variant="outlined"
         className={classes.textField}
       />
-      {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
-      ) : null}
     </>
   );
 };
