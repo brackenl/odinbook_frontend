@@ -7,6 +7,8 @@ import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import PeopleIcon from "@material-ui/icons/People";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -30,12 +32,15 @@ const FriendButtons = ({
   handleRemoveFriend,
   handleCancelFriendReq,
   handleFriendReq,
+  receivedReqs,
+  acceptFriendReq,
+  declineFriendReq,
 }) => {
   const classes = useStyles();
 
   return (
     <div>
-      {friendsArr.includes(loggedInUser.id) ? (
+      {friendsArr.includes(loggedInUser.id) ? ( // CHECK IF THE USER IS ALREADY A FRIEND
         <>
           <Button
             variant="outlined"
@@ -53,7 +58,7 @@ const FriendButtons = ({
             Remove friend
           </Button>
         </>
-      ) : friendReqsArr.includes(loggedInUser.id) ? (
+      ) : friendReqsArr.includes(loggedInUser.id) ? ( // CHECK IF THERE IS THE USER HAS ALREADY SENT A FRIEND REQ TO THE PROFILE OWNER
         <>
           <Button
             variant="outlined"
@@ -71,7 +76,29 @@ const FriendButtons = ({
             Cancel friend request
           </Button>
         </>
+      ) : receivedReqs.includes(user._id) ? ( // CHECK IF THE PROFILE OWNER HAS SENT A FRIEND REQ TO THE USER
+        <>
+          <Button
+            variant="outlined"
+            className={classes.button}
+            style={{ color: "green", borderColor: "green", width: "45%" }}
+            startIcon={<CheckCircleIcon />}
+            onClick={() => acceptFriendReq(user._id)}
+          >
+            Accept Friend Request
+          </Button>
+          <Button
+            variant="outlined"
+            className={classes.dangerButton}
+            style={{ width: "45%" }}
+            startIcon={<CancelIcon />}
+            onClick={() => declineFriendReq(user._id)}
+          >
+            Decline Friend Request
+          </Button>
+        </>
       ) : (
+        // OFFER THE USER THE OPPORTUNITY TO SEND A FRIEND REQ
         <Button
           variant="outlined"
           className={classes.button}

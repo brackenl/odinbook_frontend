@@ -18,9 +18,6 @@ const FormTextField = ({ formikKey, ...props }) => {
   const classes = useStyles();
   const [field, meta, helpers] = useField(formikKey);
 
-  console.log(meta);
-  // console.log(props);
-
   return (
     <>
       <TextField
