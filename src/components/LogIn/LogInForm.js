@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 
 import SignUpModal from "./SignUpModal";
 import Facebook from "./Facebook";
+// import AltFacebookBttn from "./AltFacebookBttn";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,7 +61,7 @@ const LogInForm = (props) => {
         className={classes.textField}
         id="email-input"
         style={{ margin: 8, width: "100%" }}
-        placeholder="Email or Phone Number"
+        placeholder="Email"
         fullWidth
         margin="normal"
         variant="outlined"
@@ -108,7 +109,8 @@ const LogInForm = (props) => {
           marginTop: "8px",
         }}
       >
-        {/* <Facebook /> */}
+        <Facebook handleFBLogin={props.handleFBLogin} />
+        {/* <AltFacebookBttn /> */}
       </div>
     </div>
   );

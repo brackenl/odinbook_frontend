@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -40,6 +41,11 @@ const Dashboard = ({ user }) => {
   const [friendRequests, setFriendRequests] = useState([]);
   const [skip, setSkip] = useState(0);
   const classes = useStyles();
+  const history = useHistory();
+
+  if (!user) {
+    history.push("/login");
+  }
 
   const {
     getPosts,
@@ -73,39 +79,6 @@ const Dashboard = ({ user }) => {
       });
     }
   }, [user]);
-
-  /*
-  const handleAcceptRequest = (id) => {
-    axios
-      .put(`/users/friends/accept`, {
-        relUserId: id,
-      })
-      .then((result) => {
-        const updatedFriends = [...userFriends, result.data.user];
-        setUserFriends(updatedFriends);
-
-        const updatedFriendReqs = friendRequests.filter(
-          (item) => item._id != id
-        );
-        setFriendRequests(updatedFriendReqs);
-      });
-  };
-
-  const handleDeclineRequest = (id) => {
-    axios
-      .delete(`/users/friends/decline`, {
-        data: {
-          relUserId: id,
-        },
-      })
-      .then((result) => {
-        const updatedFriendReqs = friendRequests.filter(
-          (item) => item._id != id
-        );
-        setFriendRequests(updatedFriendReqs);
-      });
-  };
-  */
 
   const handleScroll = (e) => {
     const bottom =

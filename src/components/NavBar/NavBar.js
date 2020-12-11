@@ -53,6 +53,7 @@ const NavBar = ({ user, setUser }) => {
     setUser("");
     handleClose();
     setDrawerOpen(false);
+    history.push("/login");
   };
 
   const handleLogoClick = () => {
@@ -73,17 +74,19 @@ const NavBar = ({ user, setUser }) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          <Hidden lgUp>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
+          {user ? (
+            <Hidden lgUp>
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+          ) : null}
           <NavDrawer
             user={user}
             drawerOpen={drawerOpen}

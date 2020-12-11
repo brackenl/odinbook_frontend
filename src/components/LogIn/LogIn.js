@@ -64,6 +64,23 @@ const Login = ({ user, setUser }) => {
       });
   };
 
+  const handleFBLogin = (accessToken) => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+    axios.post("/auth/facebook/token").then((result) => {
+      const user = {
+        email: result.data.user.email,
+        first_name: result.data.user.first_name,
+        last_name: result.data.user.last_name,
+        token: `Bearer ${accessToken}`,
+        id: result.data.user.id,
+        profilePicUrl: result.data.user.profilePicUrl,
+        facebookId: result.data.user.facebookId,
+      };
+      setUser(user);
+      history.push("/");
+    });
+  };
+
   if (user) {
     history.push("/");
   }
@@ -94,7 +111,11 @@ const Login = ({ user, setUser }) => {
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
-            <LogInForm handleLogIn={handleLogIn} handleSignUp={handleSignUp} />
+            <LogInForm
+              handleLogIn={handleLogIn}
+              handleSignUp={handleSignUp}
+              handleFBLogin={handleFBLogin}
+            />
           </Grid>
         </Grid>
       </div>

@@ -18,9 +18,11 @@ const App = () => {
   const [user, setUser] = useLocalStorage("user", "");
   const history = useHistory();
 
+  /* FOR PURPOSES OF PASSPORT TESTING
   if (!user) {
     history.push("/login");
   }
+  */
 
   return (
     <div className="App">
