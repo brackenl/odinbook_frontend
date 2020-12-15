@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -51,6 +51,7 @@ const Profile = ({ user, setUser }) => {
 
   const classes = useStyles();
   const { userId } = useParams();
+  const history = useHistory();
 
   const {
     getPosts,
@@ -65,9 +66,17 @@ const Profile = ({ user, setUser }) => {
   }, [skip]);
 
   useEffect(() => {
-    axios.get(`/users/${userId}`).then((results) => {
-      setRelUser(results.data.user);
-    });
+    axios
+      .get(`/users/${userId}`)
+      .then((results) => {
+        setRelUser(results.data.user);
+      })
+      .catch((err) => {
+        if (err.response.status === 500 || err.response.status === 401) {
+          setUser("");
+          history.push("/login");
+        }
+      });
   }, [userId]);
 
   const handleFriendReq = (profileId) => {

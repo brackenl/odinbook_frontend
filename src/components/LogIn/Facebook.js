@@ -12,18 +12,9 @@ const Facebook = ({ handleFBLogin }) => {
   const [email, setEmail] = useState("");
   const [picture, setPicture] = useState("");
 
-  const componentClicked = () => {
-    console.log("clicked");
-  };
+  const componentClicked = () => {};
 
   const responseFacebook = (res) => {
-    console.log(res);
-    console.log(res.userID, res.name, res.email, res.picture.data.url);
-    // setIsLoggedIn(true);
-    // setUserID(res.userID);
-    // setName(res.name);
-    // setEmail(res.email);
-    // setPicture(res.picture.data.url);
     handleFBLogin(res.accessToken);
   };
 

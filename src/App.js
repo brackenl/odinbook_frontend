@@ -41,7 +41,7 @@ const App = () => {
           <LogIn user={user} setUser={setUser} />
         </Route>
         <Route path="/">
-          <Dashboard user={user} />
+          <Dashboard user={user} setUser={setUser} />
         </Route>
       </Switch>
     </div>

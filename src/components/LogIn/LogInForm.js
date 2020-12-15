@@ -44,6 +44,12 @@ const LogInForm = (props) => {
     setModalOpen(!modalOpen);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleClick();
+    }
+  };
+
   const handleClick = () => {
     props.handleLogIn(email, password);
     setEmail("");
@@ -67,6 +73,7 @@ const LogInForm = (props) => {
         variant="outlined"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
+        onKeyPress={handleKeyPress}
       />
       <TextField
         className={classes.textField}
@@ -79,6 +86,7 @@ const LogInForm = (props) => {
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
+        onKeyPress={handleKeyPress}
       />
       <Button
         variant="contained"

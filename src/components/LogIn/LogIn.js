@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
   logInContainer: {
     height: "100vh",
     backgroundColor: "rgb(240,242,245)",
-    // marginTop: "-120px",
     paddingTop: "8%",
   },
 }));
@@ -29,7 +28,6 @@ const Login = ({ user, setUser }) => {
   const classes = useStyles();
 
   const handleLogIn = (email, password) => {
-    // console.log(email, password);
     axios.post("/auth/login", { email, password }).then((result) => {
       const user = {
         email: result.data.user.email,
@@ -39,8 +37,8 @@ const Login = ({ user, setUser }) => {
         id: result.data.user.id,
         profilePicUrl: result.data.user.profilePicUrl,
       };
-      setUser(user);
       axios.defaults.headers.common["Authorization"] = result.data.token.token;
+      setUser(user);
       history.push("/");
     });
   };
@@ -57,9 +55,10 @@ const Login = ({ user, setUser }) => {
           id: result.data.user.id,
           profilePicUrl: result.data.user.profilePicUrl,
         };
-        setUser(user);
         axios.defaults.headers.common["Authorization"] =
           result.data.token.token;
+        setUser(user);
+
         history.push("/");
       });
   };

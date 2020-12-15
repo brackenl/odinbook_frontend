@@ -93,7 +93,7 @@ const SignUpModal = (props) => {
             />
             <TextField
               id="emailInput"
-              placeholder="Mobile number or email"
+              placeholder="Email"
               variant="outlined"
               style={{ width: "380px" }}
               className={`${classes.textField} ${classes.longTextField}`}

@@ -40,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginBottom: 10,
   },
+  bodyText: {
+    color: "white",
+    marginBottom: 20,
+    fontSize: 14,
+  },
 }));
 
 const Friends = ({ user }) => {
@@ -76,22 +81,34 @@ const Friends = ({ user }) => {
               Friend requests
             </Typography>
           ) : null}
-          {friendRequests.map((friend) => {
-            return (
-              <FriendRequestCard
-                friend={friend}
-                key={friend._id}
-                handleAcceptRequest={handleAcceptRequest}
-                handleDeclineRequest={handleDeclineRequest}
-              />
-            );
-          })}
+          {friendRequests.length > 0 ? (
+            friendRequests.map((friend) => {
+              return (
+                <FriendRequestCard
+                  friend={friend}
+                  key={friend._id}
+                  handleAcceptRequest={handleAcceptRequest}
+                  handleDeclineRequest={handleDeclineRequest}
+                />
+              );
+            })
+          ) : (
+            <Typography variant="body1" className={classes.bodyText}>
+              No friend requests!
+            </Typography>
+          )}
           <Typography variant="h6" className={classes.heading}>
             Friends
           </Typography>
-          {userFriends.map((friend) => {
-            return <FriendCard friend={friend} key={friend._id} />;
-          })}
+          {userFriends.length > 0 ? (
+            userFriends.map((friend) => {
+              return <FriendCard friend={friend} key={friend._id} />;
+            })
+          ) : (
+            <Typography variant="body1" className={classes.bodyText}>
+              No friends yet!
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Container>

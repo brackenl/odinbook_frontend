@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({ user }) => {
+const Dashboard = ({ user, setUser }) => {
   const [posts, setPosts] = useState([]);
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [userFriends, setUserFriends] = useState([]);
@@ -73,10 +73,21 @@ const Dashboard = ({ user }) => {
 
   useEffect(() => {
     if (user) {
-      axios.get(`/users/${user.id}`).then((results) => {
-        setUserFriends(results.data.user.friends);
-        setFriendRequests(results.data.user.friendRequests);
-      });
+      axios
+        .get(`/users/${user.id}`)
+        .then((results) => {
+          setUserFriends(results.data.user.friends);
+          setFriendRequests(results.data.user.friendRequests);
+        })
+        .catch((err) => {
+          if (
+            err.response &&
+            (err.response.status === 500 || err.response.status === 401)
+          ) {
+            setUser("");
+            history.push("/login");
+          }
+        });
     }
   }, [user]);
 
