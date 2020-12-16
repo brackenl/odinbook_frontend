@@ -103,8 +103,7 @@ const axiosFns = ({
         relUserId: id,
       })
       .then((result) => {
-        const updatedFriends = [...userFriends, result.data.user];
-        setUserFriends(updatedFriends);
+        setUserFriends(result.data.user.friends);
 
         const updatedFriendReqs = friendRequests.filter(
           (item) => item._id != id
