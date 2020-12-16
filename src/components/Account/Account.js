@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -53,18 +54,24 @@ const useStyles = makeStyles((theme) => ({
 
 const Account = ({ user, setUser }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   const toggleDialog = () => {
     setDialogOpen(!dialogOpen);
   };
 
   const handleDelete = () => {
-    axios.delete(`/users/${user.id}`).then((result) => {
-      setUser("");
-    });
     setDialogOpen(false);
+    setUser("");
+    history.push("/login");
+    axios.delete(`/users/${user.id}`).then((result) => {});
   };
+
+  if (loading) {
+    return <div class="loader">Loading...</div>;
+  }
 
   return (
     <Container maxWidth="xl" className={classes.container}>

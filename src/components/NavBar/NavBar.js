@@ -57,7 +57,11 @@ const NavBar = ({ user, setUser }) => {
   };
 
   const handleLogoClick = () => {
-    history.push("/");
+    if (user) {
+      history.push("/");
+    } else {
+      history.push("/login");
+    }
   };
 
   const handleProfileClick = () => {

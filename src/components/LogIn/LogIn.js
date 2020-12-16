@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,20 +27,40 @@ const Login = ({ user, setUser }) => {
   const history = useHistory();
   const classes = useStyles();
 
+  const [errors, setErrors] = useState([]);
+  const [signupErrors, setSignupErrors] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const handleLogIn = (email, password) => {
-    axios.post("/auth/login", { email, password }).then((result) => {
-      const user = {
-        email: result.data.user.email,
-        first_name: result.data.user.first_name,
-        last_name: result.data.user.last_name,
-        token: result.data.token.token,
-        id: result.data.user.id,
-        profilePicUrl: result.data.user.profilePicUrl,
-      };
-      axios.defaults.headers.common["Authorization"] = result.data.token.token;
-      setUser(user);
-      history.push("/");
-    });
+    axios
+      .post("/auth/login", { email, password })
+      .then((result) => {
+        const user = {
+          email: result.data.user.email,
+          first_name: result.data.user.first_name,
+          last_name: result.data.user.last_name,
+          token: result.data.token.token,
+          id: result.data.user.id,
+          profilePicUrl: result.data.user.profilePicUrl,
+        };
+        axios.defaults.headers.common["Authorization"] =
+          result.data.token.token;
+        setUser(user);
+        history.push("/");
+      })
+      .catch((err) => {
+        if (err.response.data.errors) {
+          setErrors(err.response.data.errors);
+          setTimeout(() => {
+            setErrors([]);
+          }, 3000);
+        } else if (err.response.data.message) {
+          setErrors([...errors, { msg: err.response.data.message }]);
+          setTimeout(() => {
+            setErrors([]);
+          }, 3000);
+        }
+      });
   };
 
   const handleSignUp = (firstName, lastName, email, password) => {
@@ -58,8 +78,24 @@ const Login = ({ user, setUser }) => {
         axios.defaults.headers.common["Authorization"] =
           result.data.token.token;
         setUser(user);
-
+        setModalOpen(false);
         history.push("/");
+      })
+      .catch((err) => {
+        if (err.response.data.errors) {
+          setSignupErrors(err.response.data.errors);
+          setTimeout(() => {
+            setSignupErrors([]);
+          }, 3000);
+        } else if (err.response.data.message) {
+          setSignupErrors([
+            ...signupErrors,
+            { msg: err.response.data.message },
+          ]);
+          setTimeout(() => {
+            setSignupErrors([]);
+          }, 3000);
+        }
       });
   };
 
@@ -75,6 +111,23 @@ const Login = ({ user, setUser }) => {
         profilePicUrl: result.data.user.profilePicUrl,
         facebookId: result.data.user.facebookId,
       };
+      setUser(user);
+      history.push("/");
+    });
+  };
+
+  const handleTestDriveLogin = () => {
+    axios.post("/auth/testdrive").then((result) => {
+      const user = {
+        email: result.data.user.email,
+        first_name: result.data.user.first_name,
+        last_name: result.data.user.last_name,
+        token: result.data.token.token,
+        id: result.data.user.id,
+        profilePicUrl: result.data.user.profilePicUrl,
+        facebookId: result.data.user.facebookId,
+      };
+      axios.defaults.headers.common["Authorization"] = result.data.token.token;
       setUser(user);
       history.push("/");
     });
@@ -114,6 +167,11 @@ const Login = ({ user, setUser }) => {
               handleLogIn={handleLogIn}
               handleSignUp={handleSignUp}
               handleFBLogin={handleFBLogin}
+              handleTestDriveLogin={handleTestDriveLogin}
+              errors={errors}
+              signupErrors={signupErrors}
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
             />
           </Grid>
         </Grid>

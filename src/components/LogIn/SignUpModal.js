@@ -53,7 +53,7 @@ const SignUpModal = (props) => {
     setLastName("");
     setEmail("");
     setPassword("");
-    props.toggle();
+    // props.toggle();
   };
 
   return (
@@ -111,6 +111,15 @@ const SignUpModal = (props) => {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
+            {props.signupErrors
+              ? props.signupErrors.map((error) => (
+                  <div
+                    style={{ color: "red", display: "block", width: "100%" }}
+                  >
+                    {error.msg}
+                  </div>
+                ))
+              : null}
             <div
               style={{
                 display: "flex",

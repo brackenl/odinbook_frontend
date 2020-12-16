@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
@@ -6,12 +6,6 @@ import Button from "@material-ui/core/Button";
 import FacebookIcon from "@material-ui/icons/Facebook";
 
 const Facebook = ({ handleFBLogin }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userID, setUserID] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [picture, setPicture] = useState("");
-
   const componentClicked = () => {};
 
   const responseFacebook = (res) => {
@@ -19,7 +13,7 @@ const Facebook = ({ handleFBLogin }) => {
   };
 
   return (
-    <div>
+    <div style={{ width: "100%", margin: "0 8px 8px 8px" }}>
       <FacebookLogin
         appId={process.env.FACEBOOK_APP_ID}
         // autoLoad={true}
@@ -31,7 +25,7 @@ const Facebook = ({ handleFBLogin }) => {
             onClick={renderProps.onClick}
             variant="contained"
             color="secondary"
-            // className={classes.button}
+            style={{ width: "100%" }}
             startIcon={<FacebookIcon />}
           >
             Log in with Facebook

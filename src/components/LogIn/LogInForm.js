@@ -34,14 +34,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LogInForm = (props) => {
-  const [modalOpen, setModalOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const classes = useStyles();
 
   const toggleModalOpen = () => {
-    setModalOpen(!modalOpen);
+    props.setModalOpen(!props.modalOpen);
   };
 
   const handleKeyPress = (event) => {
@@ -59,9 +59,10 @@ const LogInForm = (props) => {
   return (
     <div className={classes.root}>
       <SignUpModal
-        open={modalOpen}
+        open={props.modalOpen}
         toggle={toggleModalOpen}
         handleSignUp={props.handleSignUp}
+        signupErrors={props.signupErrors}
       />
       <TextField
         className={classes.textField}
@@ -74,6 +75,7 @@ const LogInForm = (props) => {
         onChange={(e) => setEmail(e.target.value)}
         value={email}
         onKeyPress={handleKeyPress}
+        required
       />
       <TextField
         className={classes.textField}
@@ -87,7 +89,17 @@ const LogInForm = (props) => {
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         onKeyPress={handleKeyPress}
+        required
       />
+      {props.errors
+        ? props.errors.map((error) => {
+            return (
+              <div style={{ color: "red", display: "block", width: "100%" }}>
+                {error.msg}
+              </div>
+            );
+          })
+        : null}
       <Button
         variant="contained"
         color="secondary"
@@ -102,12 +114,22 @@ const LogInForm = (props) => {
         className={classes.button}
         style={{
           backgroundColor: "rgb(72,182,54)",
-          margin: "16px 20%",
           color: "white",
         }}
         onClick={toggleModalOpen}
       >
         Create New Account
+      </Button>
+      <Button
+        variant="contained"
+        className={classes.button}
+        style={{
+          backgroundColor: "orange",
+          color: "white",
+        }}
+        onClick={props.handleTestDriveLogin}
+      >
+        Test drive an existing account
       </Button>
       <div
         style={{
@@ -118,7 +140,6 @@ const LogInForm = (props) => {
         }}
       >
         <Facebook handleFBLogin={props.handleFBLogin} />
-        {/* <AltFacebookBttn /> */}
       </div>
     </div>
   );

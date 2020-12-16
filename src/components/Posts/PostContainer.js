@@ -9,6 +9,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
     overflowY: "scroll",
+
+    // hide the scrollbar
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    "&-ms-overflow-style": "none",
+    "scrollbar-width": "none",
   },
   paper: {
     padding: theme.spacing(2),
