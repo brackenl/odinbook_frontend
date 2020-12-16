@@ -53,7 +53,7 @@ const FacebookLoginButton = () => {
 
   return (
     <a
-      href={`http://localhost:3000/api/auth/facebook`}
+      href={`https://odinbook-react.herokuapp.com/api/auth/facebook`}
       className={classes.button}
     >
       <div className={classes.wrapper}>

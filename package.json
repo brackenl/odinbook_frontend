@@ -1,5 +1,5 @@
 {
-  "homepage": "http://brackenl.github.io/odinbook_frontend",
+  "homepage": "https://brackenl.github.io/odinbook_frontend",
   "name": "odinbook_frontend",
   "version": "0.1.0",
   "private": true,
@@ -48,7 +48,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3000",
   "devDependencies": {
     "gh-pages": "^3.1.0"
   }

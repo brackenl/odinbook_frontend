@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 
@@ -13,9 +13,9 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <Router>
+      <HashRouter basename="/">
         <App />
-      </Router>
+      </HashRouter>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

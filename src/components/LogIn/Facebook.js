@@ -15,7 +15,7 @@ const Facebook = ({ handleFBLogin }) => {
   return (
     <div style={{ width: "100%", margin: "0 8px 8px 8px" }}>
       <FacebookLogin
-        appId={process.env.FACEBOOK_APP_ID}
+        appId="453747755614035"
         // autoLoad={true}
         fields="name,email,picture"
         onClick={componentClicked}
